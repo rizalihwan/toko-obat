@@ -96,13 +96,13 @@
                                         <td>{{ $drug->consumed_by }}</td>
                                         <td>{{ $drug->supply->name }}</td>
                                         <td>{{ $drug->stock }}</td>
-                                        <td>{{ $drug->price }}</td>
+                                        <td>{{ "Rp. " . number_format($drug->price, 0,',','.') }}</td>
                                         <td>
-                                            <a href="{{ route('drug.edit', $drug->id) }}" class="btn btn-sm btn-warning mr-1" style="float: left;">Edit</a>
-                                            <form action="{{ route('drug.destroy', $drug->id) }}" method="post">
+                                            <a href="{{ route('drug.edit', $drug->id) }}" class="btn btn-sm btn-warning mr-1 mb-1" style="float: left;">Edit</a>
+                                            <button type="submit" onclick="deleteDrug('{{ $drug->id }}')" class="btn btn-sm btn-danger">Hapus</button>
+                                            <form action="{{ route('drug.destroy', $drug->id) }}" method="post" id="DeleteDrug{{ $drug->id }}">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" onclick="return confirm('Anda yakin ingin menghapus data?');" class="btn btn-sm btn-danger">Hapus</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -116,3 +116,31 @@
     </div>
 </div>
 @endsection
+@push('script')
+    <script>
+        function deleteDrug(id) {
+        Swal.fire({
+            title: 'Apa Anda Yakin?',
+            text: "Anda tidak dapat mengembalikannya!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Menghapus obat",
+                        showConfirmButton: false,
+                        timer: 2300,
+                        timerProgressBar: true,
+                        onOpen: () => {
+                            document.getElementById(`DeleteDrug${id}`).submit();
+                            Swal.showLoading();
+                        }
+                    });
+                }
+        })
+    }
+    </script>
+@endpush

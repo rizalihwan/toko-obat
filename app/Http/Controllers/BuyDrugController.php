@@ -19,4 +19,13 @@ class BuyDrugController extends Controller
             'drug' => Drug::findOrFail($id)
         ]);
     }
+
+    public function pay($id)
+    {
+        $drug = Drug::findOrFail($id);
+        $drug->update([
+            'stock' => $drug->stock - request('jumlah')
+        ]);
+        return redirect()->route('customer.buy')->with('success', 'Pembelian sukses');
+    }
 }

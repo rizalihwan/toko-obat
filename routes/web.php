@@ -13,3 +13,4 @@ Route::resource('drug', 'DrugController');
 Route::resource('supply', 'SupplyController');
 Route::get('/customer/buy', 'BuyDrugController@buy')->name('customer.buy');
 Route::get('/customer/{id}/payment', 'BuyDrugController@payment')->name('customer.payment');
+Route::patch('/customer/{id}/pay', 'BuyDrugController@pay')->name('customer.pay');

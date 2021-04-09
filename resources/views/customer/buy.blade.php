@@ -41,7 +41,7 @@
                                         <td>{{ $drug->consumed_by }}</td>
                                         <td>{{ $drug->supply->name }}</td>
                                         <td>{{ $drug->stock }}</td>
-                                        <td>{{ $drug->price }}</td>
+                                        <td>{{ "Rp. " . number_format($drug->price, 0,',','.') }}</td>
                                         <td>
                                             <a href="{{ route('customer.payment', $drug->id) }}" class="btn btn-success">Beli</a>
                                         </td>

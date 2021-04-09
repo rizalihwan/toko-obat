@@ -8,8 +8,9 @@
 
                 <div class="card-body">
                     <div class="card">
-                        <form action="#" method="POST">
+                        <form action="{{ route('customer.pay', $drug->id) }}" method="POST">
                             @csrf
+                            @method('patch')
                             <div class="card-body">
                                 <div class="row">
                                     <input type="hidden" name="stock" value="{{ $drug->stock }}" id="stock">
@@ -40,7 +41,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="jumlah">Jumlah Pembelian</label>
-                                            <input type="number" id="jumlah" class="form-control">
+                                            <input type="number" id="jumlah" name="jumlah" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -67,24 +68,41 @@
 @push('script')
 <script>
     let harga = document.getElementById('price');
-    let jumlah = document.querySelector('#jumlah');
+    let jumlah = document.querySelector('#jumlah');    
+    let btn = document.getElementById('bayar');
+    window.onload = function() {
+        btn.hidden = true;
+    }
+    function hiddenBayarBtn()
+    {
+        btn.hidden = true;
+    }
+    function showBayarBtn()
+    {
+        btn.hidden = false;
+    }
     jumlah.addEventListener('keyup', function(){
         document.getElementById('jumlah_bayar').value = parseInt(harga.value) * parseInt(jumlah.value);
-        let stock = document.querySelector('#stock');
+        const stock = document.querySelector('#stock');
         let pesan_kelebihan = document.getElementById('pesan_kelebihan');
-        if(parseInt(jumlah.value) > parseInt(stock.value))  
-        {
-            document.getElementById('bayar').hidden = true;
-            pesan_kelebihan.innerHTML = "Jumlah Melebihi Stok!";
-            pesan_kelebihan.className = "ml-2";
-            Swal.fire({
-                icon: 'error',
-                title: 'Informasi Pesan',
-                text: 'Jumlah Melebihi Stok!'
-            });
+        if (parseInt(jumlah.value) < 0 || jumlah.value == 0) {
+            hiddenBayarBtn();
         } else {
-            document.getElementById('bayar').hidden = false;
-            pesan_kelebihan.innerHTML = null;
+            showBayarBtn();
+            if(parseInt(jumlah.value) > parseInt(stock.value))  
+            {
+                hiddenBayarBtn();
+                pesan_kelebihan.innerHTML = "Jumlah Melebihi Stok!";
+                pesan_kelebihan.className = "ml-2";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Informasi Pesan',
+                    text: 'Jumlah Melebihi Stok!'
+                });
+            } else {
+                showBayarBtn();
+                pesan_kelebihan.innerHTML = null;
+            }
         }
     });
 </script>
