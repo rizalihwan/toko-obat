@@ -69,7 +69,7 @@
                             </div>
                         </form>
                     </div>
-                    <h3 class="text-secondary"><u>Tabel Obat</u></h3>
+                    <h3 class="text-secondary mb-3"><u>Tabel Obat</u></h3>
                     <div class="table-responsive">
                         <table id="table" class="table table-striped table-bordered" style="width:100%">
                             <thead>
@@ -95,7 +95,7 @@
                                         <td>{{ $drug->bentuk }}</td>
                                         <td>{{ $drug->consumed_by }}</td>
                                         <td>{{ $drug->supply->name }}</td>
-                                        <td>{{ $drug->stock }}</td>
+                                        <td>{!! $drug->StatusObat !!}</td>
                                         <td>{{ "Rp. " . number_format($drug->price, 0,',','.') }}</td>
                                         <td>
                                             <a href="{{ route('drug.edit', $drug->id) }}" class="btn btn-sm btn-warning mr-1 mb-1" style="float: left;">Edit</a>
@@ -118,6 +118,9 @@
 @endsection
 @push('script')
     <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
         function deleteDrug(id) {
         Swal.fire({
             title: 'Apa Anda Yakin?',

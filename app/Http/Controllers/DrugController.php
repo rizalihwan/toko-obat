@@ -17,7 +17,7 @@ class DrugController extends Controller
     {
         return view('admin.drug.index', [
             'drugs' => Drug::get(),
-            'supplies' => Supply::orderBy('name', 'ASC')->get()
+            'supplies' => Supply::get()
         ]);
     }
 

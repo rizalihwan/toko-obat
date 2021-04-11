@@ -39,7 +39,7 @@
                             </div>
                         </form>
                     </div>
-                    <h3 class="text-secondary"><u>Tabel Obat</u></h3>
+                    <h3 class="text-secondary mb-3"><u>Tabel Pemasok</u></h3>
                     <div class="table-responsive">
                         <table id="table" class="table table-striped table-bordered" style="width:100%">
                             <thead>
@@ -78,6 +78,9 @@
 @endsection
 @push('script')
     <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
         function deleteSupply(id) {
         Swal.fire({
             title: 'Apa Anda Yakin?',

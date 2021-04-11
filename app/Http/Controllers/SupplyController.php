@@ -14,7 +14,7 @@ class SupplyController extends Controller
     public function index()
     {
         return view('admin.supply.index', [
-            'supplies' => Supply::orderBy('name', 'ASC')->get()
+            'supplies' => Supply::get()
         ]);
     }
 
